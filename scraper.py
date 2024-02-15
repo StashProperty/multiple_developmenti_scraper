@@ -5,10 +5,10 @@ import time
 import requests
 import scraperwiki
 
-days_offset_from = int(os.getenv('MORPH_DAYS_OFFSET_FROM', 1))
+days_offset_from = int(os.getenv('MORPH_DAYS_OFFSET_FROM', 30))
 days_offset_to = int(os.getenv('MORPH_DAYS_OFFSET_TO', 0))
 progress = os.getenv('MORPH_PROGRESS', 'all')  # In Progress|Decided|Past|all
-councils = os.getenv('MORPH_COUNCILS', 'ipswich,sunshinecoast').split(",")
+councils = os.getenv('MORPH_COUNCILS', 'sunshinecoast').split(",")
 
 
 today = datetime.datetime.strftime(datetime.datetime.now(), "%m-%d-%Y")
@@ -69,6 +69,7 @@ for council in councils:
 
     while has_more_pages:
         print("Downloading Applications with offset %d" % total_number_returned)
+        number_returned = 0
         resp = requests.post(urls[council]['url'], json={
             "Progress": "all",
             "StartDateUnixEpochNumber": int(str(int(time.mktime((datetime.date.today() - datetime.timedelta(days=days_offset_from)).timetuple()))) + "000"),
@@ -90,12 +91,14 @@ for council in councils:
 
         for feature in raw['features']:
             extract_feature(feature, council)
+            number_returned += 1
 
         for multiSpot in raw['multiSpot'].values():
             for feature in multiSpot:
                 extract_feature(feature, council)
+                number_returned += 1
 
-        number_returned = raw['numberReturned']
+        number_returned = raw.get('numberReturned', number_returned)  # not all support numberReturned
         total_number_returned += number_returned
         total_features = raw['totalFeatures']
         has_more_pages = total_number_returned < total_features
