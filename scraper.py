@@ -1,3 +1,5 @@
+import os; import locale;  os.environ["PYTHONIOENCODING"] = "utf-8"; myLocale=locale.setlocale(category=locale.LC_ALL, locale="en_GB.UTF-8");
+
 import datetime
 import os
 import time
