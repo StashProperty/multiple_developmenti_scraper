@@ -1,5 +1,3 @@
-import os; import locale;  os.environ["PYTHONIOENCODING"] = "utf-8"; myLocale=locale.setlocale(category=locale.LC_ALL, locale="en_GB.UTF-8");
-
 import datetime
 import os
 import time
@@ -55,7 +53,7 @@ def extract_feature(feature, council):
     )
     if council_reference not in council_references:
         council_references.add(council_reference)
-        print("Saving %s, %s..." % (council_reference, record['description']))
+        print("Saving %s, %s..." % (council_reference, record['description'].encode('utf-8')))
         scraperwiki.sqlite.save(['authority_label', 'council_reference'], record)
 
 
