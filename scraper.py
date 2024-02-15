@@ -123,8 +123,14 @@ for council in councils:
     for da in das:
         resp = requests.get(urls[council]['property_details_url'] + da['land_id'])
         if resp.ok:
-            properties = resp.json()['features'][0]['properties']
-            da['address'] = properties['address_format']
-            da['lot_plan'] = properties['lot_plan']
+            features = resp.json()['features']
+            if features:
+                properties = features[0]['properties']
+                da['address'] = properties['address_format']
+                da['lot_plan'] = properties['lot_plan']
+            else:
+                # to prevent infinite attempts
+                da['address'] = ""
+                da['lot_plan'] = ""
             print("Updating %s -> %s" % (da['council_reference'], da['address']))
             scraperwiki.sqlite.save(['authority_label', 'council_reference'], da)
