@@ -8,7 +8,7 @@ import scraperwiki
 days_offset_from = int(os.getenv('MORPH_DAYS_OFFSET_FROM', 1))
 days_offset_to = int(os.getenv('MORPH_DAYS_OFFSET_TO', 0))
 progress = os.getenv('MORPH_PROGRESS', 'all')  # In Progress|Decided|Past|all
-councils = os.getenv('MORPH_COUNCILS', 'ipswich,sunshinecoast').split(",")
+councils = os.getenv('MORPH_COUNCILS', 'ipswich,sunshinecoast,toowoombaregion,redland').split(",")
 
 
 today = datetime.datetime.strftime(datetime.datetime.now(), "%m-%d-%Y")
@@ -28,6 +28,16 @@ urls = dict(
         url='https://developmenti.sunshinecoast.qld.gov.au/Geo/GetApplicationFilterResults',
         info_url='https://developmenti.sunshinecoast.qld.gov.au/Home/FilterDirect?filters=DANumber=',
         property_details_url='https://developmenti.sunshinecoast.qld.gov.au/Geo/GetPropertyDetailsByLandNumber?landNumber=',
+    ),
+    toowoombaregion=dict(
+        url='https://developmenti.tr.qld.gov.au/Geo/GetApplicationFilterResults',
+        info_url='https://developmenti.tr.qld.gov.au/Home/FilterDirect?filters=DANumber=',
+        property_details_url='https://developmenti.tr.qld.gov.au/Geo/GetPropertyDetailsByLandNumber?landNumber=',
+    ),
+    redland=dict(
+        url='https://developmenti.redland.qld.gov.au/Geo/GetApplicationFilterResults',
+        info_url='https://developmenti.redland.qld.gov.au/Home/FilterDirect?filters=DANumber=',
+        property_details_url='https://developmenti.redland.qld.gov.au/Geo/GetPropertyDetailsByLandNumber?landNumber=',
     ),
 )
 
