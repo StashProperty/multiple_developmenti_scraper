@@ -116,7 +116,7 @@ for council in councils:
     # populate each DA's address and lot plan if missing
     missing_address_query = "* from data where authority_label=? and land_id is not null"
     if 'address' in list(scraperwiki.sql.dt.column_names('data')):
-        missing_address_query += " and (address is null or lot_plan is null)"
+        missing_address_query += " and address is null"
     das = scraperwiki.sql.select(missing_address_query, [council])
 
     print("Populate %d DA's with address and lot/plan" % len(das))
@@ -126,11 +126,11 @@ for council in councils:
             features = resp.json()['features']
             if features:
                 properties = features[0]['properties']
-                da['address'] = properties['address_format']
-                da['lot_plan'] = properties['lot_plan']
+                da['address'] = properties.get('address_format', '')
+                da['lot_plan'] = properties.get('lot_plan', '')
             else:
                 # to prevent infinite attempts
-                da['address'] = ""
-                da['lot_plan'] = ""
+                da['address'] = ''
+                da['lot_plan'] = ''
             print("Updating %s -> %s" % (da['council_reference'], da['address']))
             scraperwiki.sqlite.save(['authority_label', 'council_reference'], da)
