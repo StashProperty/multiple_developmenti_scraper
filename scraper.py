@@ -53,7 +53,7 @@ def extract_feature(feature, council):
     )
     if council_reference not in council_references:
         council_references.add(council_reference)
-        print("Saving %s, %s..." % (council_reference, record['description'].encode('utf-8')))
+        print("Saving %s" % council_reference)
         scraperwiki.sqlite.save(['authority_label', 'council_reference'], record)
 
 
