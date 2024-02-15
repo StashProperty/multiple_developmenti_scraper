@@ -5,10 +5,10 @@ import time
 import requests
 import scraperwiki
 
-days_offset_from = int(os.getenv('DAYS_OFFSET_FROM', 1))
-days_offset_to = int(os.getenv('DAYS_OFFSET_TO', 0))
-progress = os.getenv('PROGRESS', 'all')  # In Progress|Decided|Past|all
-councils = os.getenv('COUNCILS', 'ipswich').split(",")
+days_offset_from = int(os.getenv('MORPH_DAYS_OFFSET_FROM', 1))
+days_offset_to = int(os.getenv('MORPH_DAYS_OFFSET_TO', 0))
+progress = os.getenv('MORPH_PROGRESS', 'all')  # In Progress|Decided|Past|all
+councils = os.getenv('MORPH_COUNCILS', 'ipswich').split(",")
 
 
 today = datetime.datetime.strftime(datetime.datetime.now(), "%m-%d-%Y")
